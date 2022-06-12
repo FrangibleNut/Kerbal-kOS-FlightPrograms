@@ -1,12 +1,12 @@
 
 clearScreen.
 
-lock throttle to 0.65.
+lock throttle to 1.
 
 // countdown
 
 print "counting down:".
-from {local countdown is 10.} until countdown = 0 step {set countdown to countdown - 1.} do {
+from {local countdown is 5.} until countdown = 0 step {set countdown to countdown - 1.} do {
     print " - - - " + countdown.
     wait 1.
 } 
@@ -64,3 +64,5 @@ until ship:apoapsis > 100000 {
 print "100km apoapsis achieved".
 
 lock throttle to 0.
+
+stage.
