@@ -13,13 +13,8 @@ from {local countdown is 5.} until countdown = 0 step {set countdown to countdow
     wait 1.
 } 
 
-// staging loop
-
-when maxThrust = 0 and ship:apoapsis < 150000 then {
-    print "staging".
-    stage.
-    preserve.
-}
+clearScreen.
+stage.
 
 // gravity turn
 
@@ -88,14 +83,13 @@ until ship:apoapsis > 150000 {
         set myHeading to heading(90,15).
         print "pitch adjusted" at(0,15).
         print round(ship:apoapsis,0) at (0,16).
-    }
+    }  
 }
+
+lock throttle to 0.
 
 // orbital insertion
 
- when ship:altitude >= 148000 then {
-    stage.
-    set myHeading to heading(90,2).
-    wait 2.
-    lock throttle to 1.
- }
+wait 5.
+
+stage.
