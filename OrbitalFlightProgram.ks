@@ -11,11 +11,18 @@ print "counting down:".
 from {local countdown is 5.} until countdown = 0 step {set countdown to countdown - 1.} do {
     print " - - - " + countdown.
     wait 1.
-} 
+}
 
 clearScreen.
 
 stage.
+
+// apoapsis
+
+when ship:apoapsis > 0 then {
+    print round(ship:apoapsis,0) at (0,16).
+    preserve.
+}
 
 // gravity turn
 
