@@ -10,8 +10,8 @@ wait 5.
 // countdown
 
 from {local countdown is 15.} until countdown = 0 step {set countdown to countdown - 1.} do {
-    print "counting down:" at (0,10).
-    print "  T -  " + countdown + " " at (0,12).
+    print "counting down:" at (0,4).
+    print "  T -  " + countdown + " " at (0,6).
     wait 1.
 }
 
@@ -19,13 +19,13 @@ clearScreen.
 
 stage.
 
-print "lift off" at (0,14).
+print "lift off" at (0,4).
 
 // apoapsis
 
 when ship:apoapsis > 0 then {
-    print "apoapsis: " + round(ship:apoapsis,0) at (0,16).
-    print "periapsis: " + round(ship:periapsis,0) at (0,18).
+    print "apoapsis: " + round(ship:apoapsis,0) at (0,6).
+    print "periapsis: " + round(ship:periapsis,0) + " " at (0,8).
     preserve.
 }
 
@@ -35,115 +35,132 @@ set steering to heading(90,90). until ship:altitude > 1000.
 
 if ship:altitude >= 1000 and ship:altitude < 2000. { 
     set steering to heading(90,85).
-    print "pitching to 85" at (0,14). 
+    print "pitching to 85" at (0,4). 
     wait until ship:altitude >= 2000.
 }
 
 if ship:altitude >= 2000 and ship:altitude < 3000. { 
     set steering to heading(90,80).
-    print "pitching to 80" at (0,14).
+    print "pitching to 80" at (0,4).
     wait until ship:altitude >= 3000.
 }
 
 if ship:altitude >= 3000 and ship:altitude < 4000. {
     set steering to heading(90,75).
-    print "pitching to 75" at (0,14).
+    print "pitching to 75" at (0,4).
     wait until ship:altitude >= 4000.
 }
 
 if ship:altitude >= 4000 and ship:altitude < 5000. {   
     set steering to heading(90,70).
-    print "pitching to 70" at (0,14).
+    print "pitching to 70" at (0,4).
     wait until ship:altitude >= 5000.
 }
      
 if ship:altitude >= 5000 and ship:altitude < 6000. {
     set steering to heading(90,65).
-    print "pitching to 65" at (0,14).
+    print "pitching to 65" at (0,4).
     wait until ship:altitude >= 6000.
 } 
 
 if ship:altitude >= 6000 and ship:altitude < 7000. {
     set steering to heading(90,60).
-    print "pitching to 60" at (0,14).
+    print "pitching to 60" at (0,4).
     wait until ship:altitude >= 7000.
 }
 
 if ship:altitude >= 7000 and ship:altitude < 8000. {
     set steering to heading(90,55).
-    print "pitching to 55" at (0,14).
+    print "pitching to 55" at (0,4).
     wait until ship:altitude >= 8000.
 }     
 
 if ship:altitude >= 8000 and ship:altitude < 9000. {
     set steering to heading(90,50).
-    print "pitching to 50" at (0,14).
+    print "pitching to 50" at (0,4).
     wait until ship:altitude >= 9000.
 }
 
 if ship:altitude >= 9000 and ship:altitude < 20000. {
     set steering to heading(90,45).
-    print "pitching to 45" at (0,14).
+    print "pitching to 45" at (0,4).
     wait until ship:altitude >= 20000.
 }
 
 if ship:altitude >= 20000 and ship:altitude < 21000. {
     set steering to heading(90,40).
-    print "pitching to 40" at (0,14).
+    print "pitching to 40" at (0,4).
     wait until ship:altitude >= 21000.
 }
 
 if ship:altitude >= 21000 and ship:altitude < 22000. {
     set steering to heading(90,35).
-    print "pitching to 35" at (0,14).
+    print "pitching to 35" at (0,4).
     wait until ship:altitude >= 22000.
 }
 
 if ship:altitude >= 22000 and ship:altitude < 23000. {
     set steering to heading(90,30).
-    print "pitching to 30" at (0,14).
+    print "pitching to 30" at (0,4).
     wait until ship:altitude >= 23000.
 } 
 
 if ship:altitude >= 23000 and ship:altitude < 24000. {
     set steering to heading(90,25).
-    print "pitching to 25" at (0,14).
+    print "pitching to 25" at (0,4).
     wait until ship:altitude >= 24000.
 }
 
 if ship:altitude >= 24000 and ship:altitude < 25000. { 
     set steering to heading(90,20).
-    print "pitching to 20" at (0,14).
+    print "pitching to 20" at (0,4).
     wait until ship:altitude >= 25000.
 }
      
 if ship:altitude >= 25000. {
     set steering to heading(90,15).
-    print "pitching to 15" at (0,14).
+    print "pitching to 15" at (0,4).
     wait until ship:altitude >= 26000.
 }
 
 if ship:apoapsis < 150000 set throttle to 1. until ship:apoapsis >= 150000.
 
-if ship:apoapsis >= 150000 set throttle to 0. print "main engine cut off" at (0,14). until ship:altitude > 50000.
+if ship:apoapsis >= 150000 set throttle to 0. print "main engine cut off" at (0,4). until ship:altitude > 50000.
 
 // orbital insertion
 
 if ship:altitude > 50000 {
     stage.
-    print "stage seperation   " at (0,14).
-    wait until ship:altitude >= 150000.
+    print "stage seperation   " at (0,4).
+    wait until ship:altitude >= ship:apoapsis - 100.
 }
 
-if ship:altitude >= 150000 {
-    print "intiaiting orbital insertion" at (0,14).
+if ship:altitude >= ship:apoapsis - 100 {
+    print "intiaiting orbital insertion" at (0,4).
     set steering to heading (90,1).
     wait 2.
     lock throttle to 1.
-    wait until ship:periapsis >= ship:apoapsis - 10000.
+    wait until ship:periapsis >= ship:apoapsis - 5000.
 }
 
-if ship:periapsis >= ship:apoapsis - 10000 {
+if ship:periapsis >= ship:apoapsis - 5000 {
+    print "orbital insertion complete   " at (0,4).
     lock throttle to 0.
-    print "orbital insertion complete   " at (0,14).
+    wait 300.
+    wait until ship:altitude >= round(ship:apoapsis,0).
+}
+
+// deorbit burn
+
+if ship:altitude >= round(ship:apoapsis,0) {
+    print "initiating deorbit maneuver" at (0,4).
+    set steering to retrograde.
+    wait 2.
+    lock throttle to 1.
+    wait until ship:periapsis <= 0.
+}
+
+if ship:periapsis <= 0 {
+    lock throttle to 0.05.
+    stage.
 }
