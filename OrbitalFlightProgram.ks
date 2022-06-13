@@ -24,7 +24,7 @@ print "lift off" at (0,4).
 // apoapsis
 
 when ship:apoapsis > 0 then {
-    print "apoapsis: " + round(ship:apoapsis,0) at (0,6).
+    print "apoapsis:  " + round(ship:apoapsis,0) at (0,6).
     print "periapsis: " + round(ship:periapsis,0) + " " at (0,8).
     preserve.
 }
@@ -137,7 +137,7 @@ if ship:altitude > 50000 {
 
 if ship:altitude >= ship:apoapsis - 100 {
     print "intiaiting orbital insertion" at (0,4).
-    set steering to heading (90,1).
+    set steering to heading(90,1).
     wait 2.
     lock throttle to 1.
     wait until ship:periapsis >= ship:apoapsis - 5000.
@@ -146,21 +146,50 @@ if ship:altitude >= ship:apoapsis - 100 {
 if ship:periapsis >= ship:apoapsis - 5000 {
     print "orbital insertion complete   " at (0,4).
     lock throttle to 0.
-    wait 300.
     wait until ship:altitude >= round(ship:apoapsis,0).
 }
 
-// deorbit burn
+// circularize orbit
 
 if ship:altitude >= round(ship:apoapsis,0) {
+    print "circularizing orbit         " at (0,4).
+    set steering to heading(90,1).
+    wait 0.5.
+    lock throttle to 1.
+    wait until ship:periapsis >= ship:apoapsis - 1000.
+}
+
+if ship:periapsis >= ship:apoapsis - 1000 {
+    lock throttle to 0.0.
+    wait until ship:altitude >= round(ship:apoapsis,0).
+}
+
+if ship:altitude >= round(ship:apoapsis,0) { 
+    set steering to heading(90,1).
+    wait 0.5.
+    lock throttle to 1.
+    wait until ship:periapsis >= ship:apoapsis - 100.
+}
+
+if ship:periapsis >= ship:apoapsis - 1000 {
+    print "circularization complete" at (0,4).
+    lock throttle to 0.0.
+    wait until round(ship:altitude,0) = round(ship:periapsis,0)
+}
+
+// deorbit maneuver
+
+if round(ship:altitude,0) = round(ship:periapsis,0) {
     print "initiating deorbit maneuver" at (0,4).
-    set steering to retrograde.
-    wait 2.
+    set heading to retrograde.
     lock throttle to 1.
     wait until ship:periapsis <= 0.
 }
 
 if ship:periapsis <= 0 {
-    lock throttle to 0.05.
+    lock throttle to 0.
+    print "deorbit maneuver complete   " at (0,4).
+    wait 5.
+    print "prepare for reentry         " at (0,4).
     stage.
 }
