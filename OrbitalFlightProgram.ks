@@ -5,12 +5,13 @@ clearScreen.
 
 set throttle to 1.
 
+wait 5.
+
 // countdown
 
-print "counting down:" at (0,5).
-
-from {local countdown is 5.} until countdown = 0 step {set countdown to countdown - 1.} do {
-    print " - - - " + countdown at (0,6).
+from {local countdown is 15.} until countdown = 0 step {set countdown to countdown - 1.} do {
+    print "counting down:" at (0,10).
+    print "  T -  " + countdown + " " at (0,12).
     wait 1.
 }
 
@@ -23,7 +24,8 @@ print "lift off" at (0,14).
 // apoapsis
 
 when ship:apoapsis > 0 then {
-    print round(ship:apoapsis,0) at (0,16).
+    print "apoapsis: " + round(ship:apoapsis,0) at (0,16).
+    print "periapsis: " + round(ship:periapsis,0) at (0,18).
     preserve.
 }
 
@@ -123,6 +125,25 @@ if ship:altitude >= 25000. {
 
 if ship:apoapsis < 150000 set throttle to 1. until ship:apoapsis >= 150000.
 
-if ship:apoapsis >= 150000 set throttle to 0. 
+if ship:apoapsis >= 150000 set throttle to 0. print "main engine cut off" at (0,14). until ship:altitude > 50000.
 
 // orbital insertion
+
+if ship:altitude > 50000 {
+    stage.
+    print "stage seperation   " at (0,14).
+    wait until ship:altitude >= 150000.
+}
+
+if ship:altitude >= 150000 {
+    print "intiaiting orbital insertion" at (0,14).
+    set steering to heading (90,1).
+    wait 2.
+    lock throttle to 1.
+    wait until ship:periapsis >= ship:apoapsis - 10000.
+}
+
+if ship:periapsis >= ship:apoapsis - 10000 {
+    lock throttle to 0.
+    print "orbital insertion complete   " at (0,14).
+}
