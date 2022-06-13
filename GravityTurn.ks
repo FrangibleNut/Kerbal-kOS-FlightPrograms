@@ -65,4 +65,3 @@ until ship:apoapsis > 100000 {
 print "100km apoapsis achieved".
 
 lock throttle to 0.
-
