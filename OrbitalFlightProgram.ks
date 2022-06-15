@@ -160,28 +160,16 @@ if ship:altitude >= round(ship:apoapsis,0) {
 }
 
 if ship:periapsis >= ship:apoapsis - 1000 {
-    lock throttle to 0.0.
-    wait until ship:altitude >= round(ship:apoapsis,0).
-}
-
-if ship:altitude >= round(ship:apoapsis,0) { 
-    set steering to heading(90,1).
-    wait 0.5.
-    lock throttle to 1.
-    wait until ship:periapsis >= ship:apoapsis - 100.
-}
-
-if ship:periapsis >= ship:apoapsis - 1000 {
     print "circularization complete" at (0,4).
     lock throttle to 0.0.
-    wait until round(ship:altitude,0) = round(ship:periapsis,0)
+    wait until round(ship:altitude,0) = round(ship:periapsis,0).
 }
 
 // deorbit maneuver
 
 if round(ship:altitude,0) = round(ship:periapsis,0) {
     print "initiating deorbit maneuver" at (0,4).
-    set heading to retrograde.
+    set steering to retrograde.
     lock throttle to 1.
     wait until ship:periapsis <= 0.
 }
@@ -192,4 +180,10 @@ if ship:periapsis <= 0 {
     wait 5.
     print "prepare for reentry         " at (0,4).
     stage.
+    wait until round(ship:altitude,0) = 0. 
+}
+
+if round(ship:altitude,0) = 0 {
+    clearScreen.
+    print "mission successful   " at (0,4).
 }
